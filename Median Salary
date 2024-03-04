@@ -31,3 +31,16 @@ department	median_salary
 Audit	      1000
 Management	175000
 Sales	      1300
+
+
+*********************************************************************Another way **********************************************************
+SELECT department, ROUND(AVG(salary))
+FROM
+(select department, salary , ROW_NUMBER() OVER ( PARTITION BY department ORDER BY salary) As r,
+COUNT(*) OVER (PARTITION BY department) As c
+from employee
+GROUP BY 1,2) ranked
+WHERE CASE WHEN c%2 = 0 THEN r= c/2 OR r = c/2 + 1
+           ELSE r =(c+1)/2 END
+
+GROUP BY department;
