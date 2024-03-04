@@ -1,0 +1,33 @@
+Median Salary
+
+Find the median employee salary of each department.
+Output the department name along with the corresponding salary rounded to the nearest whole dollar.
+
+Table: employee
+id: int
+first_name: varchar
+last_name: varchar
+age: int
+sex: varchar
+employee_title: varchar
+department: varchar
+salary:int
+target: int
+bonus: int
+email: varchar
+city: varchar
+address: varchar
+manager_id: int
+
+
+Answer
+
+select department, ROUND(percentile_cont(0.50) WITHIN GROUP(Order by salary ASC)) as Median_Salary
+from employee
+GROUP BY department;
+
+Output 
+department	median_salary
+Audit	      1000
+Management	175000
+Sales	      1300
