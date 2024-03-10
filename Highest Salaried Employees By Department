@@ -1,0 +1,28 @@
+Highest Salaried Employees By Department - strats scratch
+
+You have been asked to find the employee with the highest salary in each department.
+
+
+Output the department name, full name of the employee(s), and corresponding salary.
+
+Table: worker
+
+worker_id: int
+first_name: varchar
+last_name: varchar
+salary: int
+joining_date: datetime
+department: varchar
+
+
+
+Solution :
+
+SELECT department, full_name, salary
+FROM 
+(
+ SELECT CONCAT(first_name,' ',last_name) AS full_name, salary,
+        ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) As r
+FROM worker
+)
+WHERE r = 1;
